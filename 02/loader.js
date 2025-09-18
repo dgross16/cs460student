@@ -1,7 +1,7 @@
-function download() {
+function download(r, CAMERAS) {
 
   // get all objects
-  ALL_OBJECTS = [];
+  var ALL_OBJECTS = [];
 
   for (var i = 0; i<r.Ha.length; i++) {
     // note: r.Ha are all objects in the scene
@@ -25,7 +25,7 @@ function download() {
   var out = {};
   out['objects'] = ALL_OBJECTS;
   if (typeof CAMERAS == 'undefined' || CAMERAS.length == 0) {
-    CAMERAS = [r.camera.view];
+    var CAMERAS = [r.camera.view];
   }
   out['camera'] = CAMERAS; //r.camera.view;
 
@@ -41,7 +41,7 @@ function download() {
 
 }
 
-function upload(scene) {
+function upload(r, scene) {
 
   // remove all objects in the scene
   for (var obj in r.Ha) {
@@ -55,7 +55,7 @@ function upload(scene) {
   req.responseType = 'json';
   req.open('GET', scene, true);
   req.onload  = function() {
-    loaded = req.response;
+    var loaded = req.response;
 
     // parse cubes
     for (var obj in loaded['objects']) {
@@ -64,17 +64,17 @@ function upload(scene) {
 
       // [type, color, matrix, radius, lengthX, lengthY, lengthZ]
 
-      type = obj[0];
-      color = obj[1];
-      matrix = obj[2];
-      radius = obj[3];
-      lengthX = obj[4];
-      lengthY = obj[5];
-      lengthZ = obj[6];
+     var type = obj[0];
+     var color = obj[1];
+     var matrix = obj[2];
+     var radius = obj[3];
+     var lengthX = obj[4];
+     var lengthY = obj[5];
+     var lengthZ = obj[6];
 
       if (type == 'cube') {
 
-        loaded_cube = new X.cube();
+        var loaded_cube = new X.cube();
         loaded_cube.color = color;
         loaded_cube.transform.matrix = new Float32Array(Object.values(matrix));
         loaded_cube.lengthX = lengthX;
@@ -84,7 +84,7 @@ function upload(scene) {
         r.add(loaded_cube);
 
       } else if (type == 'sphere') {
-        
+
         loaded_sphere = new X.sphere();
         loaded_sphere.color = color;
         loaded_sphere.transform.matrix = new Float32Array(Object.values(matrix));
@@ -101,7 +101,7 @@ function upload(scene) {
     // restore camera
     r.camera.view = new Float32Array(Object.values(loaded['camera'][0]));
 
-    CAMERAS = [];
+    var CAMERAS = [];
     for (var cam in loaded['camera']) {
 
       cam = loaded['camera'][cam];
@@ -113,6 +113,7 @@ function upload(scene) {
 
   };
   req.send(null);
-  
+
 }
+export {download, upload};
 
