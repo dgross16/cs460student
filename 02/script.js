@@ -51,6 +51,7 @@ export default function main() {
                 break;
             case 'b':
                 YOU_SPIN_ME_ROUND = !YOU_SPIN_ME_ROUND;
+                playSong(song, YOU_SPIN_ME_ROUND);
                 break;
             case 'o':
                 download(r);
@@ -58,6 +59,20 @@ export default function main() {
             case 'l':
                 upload(r, "scene.json");
                 break;
+        }
+    }
+
+    // Play song when B is pressed
+    const song = document.getElementById('song');
+    function playSong (song, bool) {
+        if (bool) {
+            song.play();
+            const lyrics = "You spin me right round baby right round like a record, baby right round round round"
+            lyrics.split(' ').forEach((s) => console.log(s));
+        }
+        else {
+            song.pause();
+            song.currentTime=0;
         }
     }
 
