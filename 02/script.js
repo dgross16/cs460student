@@ -20,8 +20,8 @@ window.onload = () => {
     }
     r.camera.position = [0, 0, 500];
 
-    let SELECTED_CUBE = null;
-    let YOU_SPIN_ME_ROUND = false;
+    var SELECTED_CUBE = null;
+    var YOU_SPIN_ME_ROUND = false;
 
     r.interactor.onMouseMove = (e) => {
         //console.log('test', e.offsetX, e.offsetY);
@@ -34,24 +34,32 @@ window.onload = () => {
 
     // keypress controls
     window.onkeypress = (e) => {
-        if (SELECTED_CUBE === null) {return}
         switch (e.key) {
+            // Hides cube
             case 'q':
+                if (SELECTED_CUBE === null) {return}
                 SELECTED_CUBE.visible = false;
                 break;
+            // Random Color
             case 'w':
+                if (SELECTED_CUBE === null) {return}
+                // creates array of random numbers in [0, 1]
                 const random_color = new Array(3)
-                    .fill(1).map((x) => x * Math.random());
-                //console.log(random_color);
+                    .fill(1)
+                    .map((x) => x * Math.random());
                 SELECTED_CUBE.color = random_color;
                 break;
+            // Rotate
             case 'e':
+                if (SELECTED_CUBE === null) {return}
                 SELECTED_CUBE.transform.rotateX(10);
                 break;
+            // Camera Spin
             case 'b':
                 YOU_SPIN_ME_ROUND = !YOU_SPIN_ME_ROUND;
                 playSong(song, YOU_SPIN_ME_ROUND);
                 break;
+            // Download/Uploading scene
             case 'o':
                 download(r);
                 break;
