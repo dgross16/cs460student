@@ -102,10 +102,11 @@ function upload(r, scene, CAMERAS) {
     r.camera.view = new Float32Array(Object.values(loaded['camera'][0]));
 
     //var CAMERAS = [];
-    for (const i in loaded['camera']) {
-      const cam = loaded['camera'][i];
-      CAMERAS.push(cam);
-
+    if (CAMERAS) {
+        for (const i in loaded['camera']) {
+          const cam = loaded['camera'][i];
+          CAMERAS.push(cam);
+        }
     }
 
 

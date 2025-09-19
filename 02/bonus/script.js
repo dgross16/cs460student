@@ -73,11 +73,9 @@ window.onload = () => {
             case 'c':
                 const cam = r.camera.view;
                 CAMERAS.push(new Float32Array(Object.values(cam)));
-                console.log(CAMERAS);
                 break;
             case 'v':
-                console.log(CAMERAS);
-                if (CAMERAS.length === 0) { break; }
+                if (CAMERAS.length === 0) {return}
                 if (!CAMERA_LOOP_ID) {
                     loopCamera();
                 } else {
@@ -88,12 +86,6 @@ window.onload = () => {
         }
     }
 
-    /*
-    let lyric_index = 0;
-    const words = lyrics.split(' ')
-    console.log(words[lyric_index]);
-    lyric_index++;
-    */
     const song = document.getElementById('song');
     function playSong (song, bool) {
         if (bool) {
@@ -111,13 +103,10 @@ window.onload = () => {
     function loopCamera() {
         //let CAMERAS = CAMERAS.slice(0);
         CAMERA_LOOP_ID = setInterval(() => {
-        //console.log(CAMERAS);
         // get first camera in queue, set it, and enqueue it again
         const newCam = new Float32Array(Object.values(CAMERAS.shift()));
-        //console.log(CAMERAS);
         r.camera.view = newCam.slice(0);
         CAMERAS.push(newCam);
-        //console.log(CAMERAS);
         }, 1000);
     }
 
