@@ -1,7 +1,6 @@
-import {download, upload} from './loader.js';
+import {download, upload} from 'loader';
 
-//window.onload = () => {
-export default function main() {
+window.onload = () => {
     var r = new X.renderer3D();
     r.init();
 
