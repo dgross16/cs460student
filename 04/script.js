@@ -8,16 +8,28 @@ async function startWebcamBackground() {
           const stream = await navigator.mediaDevices.getUserMedia({ video: true });
           const video = document.getElementById("video-bg");
           video.srcObject = stream;
+          /*
           document.getElementsByTagName('html')[0].style.backgroundImage = 'none'
           document.getElementsByTagName('html')[0].style.backgroundSize = 'none'
+          */
       } catch (err) {
           console.error('Error accessing webcam:', err);
       }
     };
 
-startWebcamBackground();
+//startWebcamBackground();
 
 window.onload = function() {
+    var webcam = confirm('Would you like to allow webcam to go fishing under the sea?')
+    if (webcam) {
+        //turn off background and add webcam bg
+        document.getElementsByTagName('html')[0].style.backgroundImage = 'none'
+        document.getElementsByTagName('html')[0].style.backgroundSize = 'none'
+        startWebcamBackground();
+    } else {
+        // hide overlay
+        document.getElementById('overlay').style.display = 'none';
+    };
     //************************************************************//
     //
     // INITIALIZE WEBGL
