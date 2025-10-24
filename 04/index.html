@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <title>Flashy Fish</title>
+    <style>
+      html, body {
+        background: url('https://cs460.org/assignments/04/bg.jpg');
+        background-size: cover;
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden !important;
+      }
+
+      #c {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <script type="text/javascript" src="https://cs460.org/js/glmatrix.js"></script>
+
+  <script id="vertexshader" type="glsl">
+    attribute vec3 a_position;
+
+    uniform float u_pointsize;
+    uniform mat4 u_transform;
+
+    void main(void) {
+
+      vec4 final_position = u_transform * vec4(a_position, 1.0);
+
+      gl_Position = final_position;
+      gl_PointSize = u_pointsize;
+
+    }
+  </script>
+
+  <script id="fragmentshader" type="glsl">
+    precision mediump float;
+
+    uniform vec4 u_color;
+
+    void main(void) {
+
+      gl_FragColor = u_color;
+
+    }
+  </script>
+
+  <script type="text/javascript" src="script.js"></script>
+
+  <body>
+    <canvas id="c"></canvas>
+  </body>
+</html>
+
