@@ -2,6 +2,21 @@ var c, gl;
 var v_shader, f_shader, shaderprogram;
 var vertices, indices, v_buffer, i_buffer;
 
+// webcam as background image --> chatGPT
+async function startWebcamBackground() {
+      try {
+          const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const video = document.getElementById("video-bg");
+          video.srcObject = stream;
+          document.getElementsByTagName('html')[0].style.backgroundImage = 'none'
+          document.getElementsByTagName('html')[0].style.backgroundSize = 'none'
+      } catch (err) {
+          console.error('Error accessing webcam:', err);
+      }
+    };
+
+startWebcamBackground();
+
 window.onload = function() {
     //************************************************************//
     //
@@ -69,7 +84,6 @@ window.onload = function() {
 
 
 function createFish(color, offset, scale, direction) {
-
 
     //************************************************************//
     //
@@ -213,7 +227,7 @@ function animate() {
 
         // make the large fish red
         if (r == 0) {
-            current_color = [1, 0, 0, 0.8];
+            current_color = [1, 0, 0, 0.9];
         }
 
         // Pass colors to shaders
