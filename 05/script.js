@@ -5,7 +5,7 @@ import { Pane } from 'tweakpane';
 import { AnaglyphEffect } from 'three/addons/effects/AnaglyphEffect.js';
 import { VertexNormalsHelper } from 'three/addons/helpers/VertexNormalsHelper.js'
 
-var renderer, controls, scene, camera, effect;
+var renderer, controls, scene, camera, effect, stats;
 
 var pane = new Pane();
 var sceneui = pane.addFolder({title: 'Scene'});
@@ -56,6 +56,10 @@ window.onload = function() {
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
+
+  // stats.js widget
+  stats = new Stats();
+  document.body.appendChild(stats.domElement);
 
   // 3D Anaglyph effect
   effect = new AnaglyphEffect( renderer );
@@ -116,6 +120,7 @@ window.onload = function() {
     const helper = new VertexNormalsHelper(samba, 0.1, 'blue');
     helper.visible = false;
     window.SCENE.blender_helper = helper;
+    scene.add(helper);
 
 
     blenderui.addBinding(window.SCENE.blender.material, 'wireframe');
@@ -173,24 +178,25 @@ function animate() {
       // TODO setup 180 degree quaternion
       const q = rotationQuaternion(180, [0, 1, 0]);
       window.SCENE.blender.quaternion.slerp(q, 0.01);
-      window.SCENE.blender_helper.update();
     } else {
       // TODO reset quaternion to identity!
       const q = new THREE.Quaternion(0, 0, 0, 1);
       window.SCENE.blender.quaternion.slerp(q, 0.01);
-      window.SCENE.blender_helper.update();
     }
+    window.SCENE.blender_helper.update();
   }
 
-  // and here..
   controls.update();
+
   renderer.render(scene, camera);
   if (window.SCENE.anaglyph) {
     effect.render(scene, camera);
   }
+  stats.update();
 
 };
 
+// returns a rotation quaternion
 function rotationQuaternion (angle, axis) {
     const t = (angle * Math.PI) / 180
 
